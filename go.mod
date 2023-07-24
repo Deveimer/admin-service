@@ -3,7 +3,7 @@ module main
 go 1.20
 
 require (
-	github.com/varun-singhh/gofy v0.0.0-20230619151134-d672149f26b4
+	github.com/varun-singhh/gofy v0.0.0-20230724143724-0c73f6b47370
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/gorm v1.25.2
 )
