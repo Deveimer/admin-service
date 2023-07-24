@@ -24,6 +24,8 @@ github.com/varun-singhh/gofy v0.0.0-20230619151134-d672149f26b4 h1:bOT2YiAJ4jpz4
 github.com/varun-singhh/gofy v0.0.0-20230619151134-d672149f26b4/go.mod h1:Uz/qJpSpMAAjQuLVEM1iuBe31e7GreiDw75M0xafR+E=
 github.com/varun-singhh/gofy v0.0.0-20230724143724-0c73f6b47370 h1:pD8SX31U/BFLrUDhk95inr84Pmpnn2HcsaNTS9dti2o=
 github.com/varun-singhh/gofy v0.0.0-20230724143724-0c73f6b47370/go.mod h1:05YPze0sqr5zMVQFvbbxed/mYV0Eah2AFNS2mc4o/IE=
+github.com/varun-singhh/gofy v0.0.0-20230724144452-7c2301b49ea0 h1:BOmbIm6UkxfLmgRil360G/s8ZPwImQ+HtYeqaMw4HyM=
+github.com/varun-singhh/gofy v0.0.0-20230724144452-7c2301b49ea0/go.mod h1:05YPze0sqr5zMVQFvbbxed/mYV0Eah2AFNS2mc4o/IE=
 golang.org/x/crypto v0.8.0 h1:pd9TJtTueMTVQXzk8E2XESSMQDj/U7OUu0PqJqPXQjQ=
 golang.org/x/crypto v0.8.0/go.mod h1:mRqEX+O9/h5TFCrQhkgjo2yKi0yYA+9ecGkdQoHrywE=
 golang.org/x/text v0.9.0 h1:2sjJmO8cDvYveuX97RDLsxlyUxLl+GHoLxBiRdHllBE=
