@@ -1,0 +1,9 @@
+openapi: 3.0.3
+info:
+  title: Health Admin
+  description: Health Admin
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  
