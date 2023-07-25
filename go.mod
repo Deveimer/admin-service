@@ -3,8 +3,7 @@ module main
 go 1.20
 
 require (
-	github.com/varun-singhh/gofy v0.0.0-20230724144452-7c2301b49ea0
-	gorm.io/driver/postgres v1.5.2
+	github.com/Deveimer/goofy v0.0.0-20230725045157-aeb5d4219359
 	gorm.io/gorm v1.25.2
 )
 
@@ -18,4 +17,5 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	golang.org/x/crypto v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
+	gorm.io/driver/postgres v1.5.2 // indirect
 )

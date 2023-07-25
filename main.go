@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/varun-singhh/gofy/pkg/goofy"
+	"github.com/Deveimer/goofy/pkg/goofy"
 )
 
 func main() {
