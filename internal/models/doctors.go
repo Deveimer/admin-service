@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// first contribution
 type Doctor struct {
 	Id        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -48,6 +49,7 @@ type DoctorAppointments struct {
 }
 
 type DoctorOPDSchedule struct {
+	ID           int       `json:"-"`
 	DoctorID     string    `json:"doctor_id"`
 	OPDStatus    string    `json:"opd_status"`
 	OPDStartDate time.Time `json:"opd_start_date"`
