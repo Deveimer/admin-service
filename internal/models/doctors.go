@@ -49,6 +49,7 @@ type DoctorAppointments struct {
 }
 
 type DoctorOPDSchedule struct {
+	ID           int       `json:"-"`
 	DoctorID     string    `json:"doctor_id"`
 	OPDStatus    string    `json:"opd_status"`
 	OPDStartDate time.Time `json:"opd_start_date"`
