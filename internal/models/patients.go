@@ -36,13 +36,14 @@ type PatientDetails struct {
 }
 
 type PatientPrescription struct {
-	PrescriptionID       string    `json:"prescription_id"`
+	ID                   string    `json:"id"`
 	PatientID            string    `json:"patient_id"`
 	DoctorID             string    `json:"doctor_id"`
 	PrescriptionLocation string    `json:"prescription_location"`
-	PrescriptionDate     string    `json:"prescription_date"`
+	Notes                string    `json:"notes,omitempty"`
+	CreatedAt            time.Time `json:"createdAt"`
 	UpdatedAt            time.Time `json:"updatedAt,omitempty"`
-	CreatedAt            time.Time `json:"createdAt,omitempty"`
+	DeletedAt            time.Time `json:"deletedAt,omitempty"`
 }
 
 type PatientAppointments struct {
