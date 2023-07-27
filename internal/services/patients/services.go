@@ -2,6 +2,7 @@ package patients
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
+
 	"main/internal/models"
 	"main/internal/stores"
 	"main/utils"

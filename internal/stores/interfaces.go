@@ -2,6 +2,7 @@ package stores
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
+
 	"main/internal/models"
 )
 
