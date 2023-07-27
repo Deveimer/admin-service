@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS "patient_prescription" (
                                                      "doctor_id" varchar NOT NULL,
                                                      "prescription_location" varchar NOT NULL,
                                                      "notes"  varchar,
-                                                     "createdAt" TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-                                                     "updatedAt" TIMESTAMP WITHOUT TIME ZONE,
-                                                     "deletedAt" TIMESTAMP WITHOUT TIME ZONE,
+                                                     "created_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                                                     "updated_at" TIMESTAMP WITHOUT TIME ZONE,
+                                                     "deleted_at" TIMESTAMP WITHOUT TIME ZONE DEFAULT NULL,
                                                      PRIMARY KEY ("id")
     )

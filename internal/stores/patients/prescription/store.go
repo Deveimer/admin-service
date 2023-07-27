@@ -22,6 +22,34 @@ func New(db *sql.DB) *Prescription {
 
 const tableName = "patient_prescription"
 
+func (s *Prescription) GetByID(ctx *goofy.Context, prescriptionID string) (*models.PatientPrescription, error) {
+	query := `SELECT * FROM ` + tableName + ` WHERE  id = $1 and deleted_at is NULL`
+
+	var prescriptionData models.PatientPrescription
+
+	row := s.DB.QueryRow(query, prescriptionID)
+
+	if err := row.Scan(&prescriptionData.ID, &prescriptionData.PatientID, &prescriptionData.DoctorID, &prescriptionData.PrescriptionLocation, &prescriptionData.Notes, &prescriptionData.CreatedAt, &prescriptionData.UpdatedAt, &prescriptionData.DeletedAt); err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.Response{
+				StatusCode: http.StatusNotFound,
+				Status:     http.StatusText(http.StatusNotFound),
+				Reason:     "Prescription Not Found",
+			}
+		}
+
+		ctx.Log("INFO", fmt.Sprintf("Scan Error while reteriving prescription, Error: %v", err.Error()))
+
+		return nil, errors.Response{
+			StatusCode: http.StatusInternalServerError,
+			Code:       http.StatusText(http.StatusInternalServerError),
+			Reason:     "Sorry an unexpected error occurred, please try again later",
+		}
+	}
+
+	return &prescriptionData, nil
+}
+
 func (s *Prescription) Get(ctx *goofy.Context, filter *filters.Prescription) (*models.PatientPrescription, error) {
 	query := `SELECT * FROM ` + tableName + ` WHERE `
 
@@ -105,9 +133,9 @@ func (s *Prescription) Update(ctx *goofy.Context, requestData *models.PatientPre
 }
 
 func (s *Prescription) Delete(ctx *goofy.Context, doctorID string) error {
-	query := `DELETE FROM ` + tableName + " WHERE doctor_id = $1"
+	query := `UPDATE` + tableName + ` SET deleted_at = $1 WHERE doctor_id = $2`
 
-	_, err := s.DB.Exec(query, doctorID)
+	_, err := s.DB.Exec(query, time.Now(), doctorID)
 	if err != nil {
 		ctx.Log("INFO", fmt.Sprintf("Error while deleting prescription for doctorID: %v, Error: %v", doctorID, err))
 		return errors.Response{
@@ -139,6 +167,10 @@ func generateSetClause(requestData *models.PatientPrescription, i int) (q string
 		index += 1
 	}
 
+	q += "updated_at = $" + strconv.Itoa(index)
+	p = append(p, time.Now())
+	index += 1
+
 	return q, p
 }
 
@@ -160,10 +192,6 @@ func generateWhereClause(filter *filters.Prescription, i int) (q string, p []int
 		p = append(p, filter.DoctorID)
 		index += 1
 	}
-
-	q += "updated_at = $" + strconv.Itoa(index)
-	p = append(p, time.Now())
-	index += 1
 
 	return q, p
 }
