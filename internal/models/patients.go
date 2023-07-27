@@ -5,6 +5,17 @@ import (
 	"time"
 )
 
+type PatientRequest struct {
+	Name    string `json:"name"`
+	Gender  string `json:"gender"`
+	Phone   string `json:"phone"`
+	Email   string `json:"email"`
+	Age     int    `json:"age"`
+	City    string `json:"city"`
+	State   string `json:"state"`
+	Pincode int    `json:"pincode"`
+}
+
 type Patient struct {
 	Id        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -23,8 +34,7 @@ type PatientDetails struct {
 	Age           int              `json:"age"`
 	City          string           `json:"city"`
 	State         string           `json:"state"`
-	Pincode       string           `json:"pincode"`
-	JoinedTime    time.Time        `json:"joined_time"`
+	Pincode       int              `json:"pincode"`
 	JoinedOn      time.Time        `json:"joined_on"`
 	LastLoginTime time.Time        `json:"lastLoginTime"`
 	MetaData      *json.RawMessage `json:"metaData"`
@@ -40,7 +50,6 @@ type PatientPrescription struct {
 	PatientID            string    `json:"patient_id"`
 	DoctorID             string    `json:"doctor_id"`
 	PrescriptionLocation string    `json:"prescription_location"`
-	PrescriptionDate     string    `json:"prescription_date"`
 	UpdatedAt            time.Time `json:"updatedAt,omitempty"`
 	CreatedAt            time.Time `json:"createdAt,omitempty"`
 }
