@@ -23,7 +23,7 @@ const tableName = "patient"
 
 func (p *PatientStore) Create(ctx *goofy.Context, patient *models.PatientDetails) (interface{}, error) {
 	query := `INSERT INTO ` + tableName + ` (id,name,gender,phone,email,age,city,state,pincode,joined_on,status,created_at,password,salt) 
-			VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15)`
+			VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`
 
 	_, err := p.DB.Exec(query, patient.Id, patient.Name, patient.Gender, patient.Phone, patient.Email, patient.Age,
 		patient.City, patient.State, patient.Pincode, time.Now(), patient.Status, time.Now(), patient.Password, patient.Salt)
