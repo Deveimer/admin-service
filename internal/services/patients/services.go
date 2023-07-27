@@ -45,7 +45,7 @@ func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientReque
 
 	patientDetails.Id = id
 
-	salt, err := utils.GenerateNumericUniqueId(12)
+	salt, err := utils.GenerateAlphaNumericUniqueId(12)
 	if err != nil {
 		ctx.Logger.Errorf("error while generating salt for new patient")
 		return nil, err
