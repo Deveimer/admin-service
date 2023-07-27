@@ -51,6 +51,7 @@ type PatientPrescription struct {
 	PatientID            string    `json:"patient_id"`
 	DoctorID             string    `json:"doctor_id"`
 	PrescriptionLocation string    `json:"prescription_location"`
+	PrescriptionDate     string    `json:"prescription_date"`
 	UpdatedAt            time.Time `json:"updatedAt,omitempty"`
 	CreatedAt            time.Time `json:"createdAt,omitempty"`
 }
