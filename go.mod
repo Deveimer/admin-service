@@ -3,7 +3,7 @@ module main
 go 1.19
 
 require (
-	github.com/Deveimer/goofy v0.0.0-20230727201908-04324dbf4156
+	github.com/Deveimer/goofy v0.0.0-20230728221635-bf6607aee4dc
 	github.com/matoous/go-nanoid v1.5.0
 	gorm.io/gorm v1.25.2
 )

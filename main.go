@@ -28,7 +28,10 @@ func main() {
 	patientHandler := patientsHandler.New(patientSvc)
 	doctorOPDScheduleHandler := doctorOPDScheduleHandler.New(doctorOPDScheduleSvc)
 
+	app.GET("/patient/{id}", patientHandler.Get)
 	app.POST("/patient", patientHandler.Create)
+	app.PUT("/patient/{id}", patientHandler.Update)
+	app.DELETE("/patient/{id}", patientHandler.Delete)
 
 	app.POST("/doctor-opd-schedule", doctorOPDScheduleHandler.Create)
 	app.GET("/doctor-opd-schedule", doctorOPDScheduleHandler.Index)

@@ -9,9 +9,9 @@ import (
 
 type Patient interface {
 	Create(ctx *goofy.Context, patient *models.PatientRequest) (interface{}, error)
-	Get(ctx *goofy.Context, patient *models.PatientRequest) (*models.PatientDetails, error)
-	Update(ctx *goofy.Context, patient *models.PatientRequest) (*models.PatientDetails, error)
-	Delete(ctx *goofy.Context, patient *models.PatientRequest) error
+	Get(ctx *goofy.Context, id string) (*models.PatientDetails, error)
+	Update(ctx *goofy.Context, patientDetails *models.PatientRequest, id string) (*models.PatientDetails, error)
+	Delete(ctx *goofy.Context, id string) error
 }
 
 type DoctorOPDScheduler interface {

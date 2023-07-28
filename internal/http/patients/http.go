@@ -40,15 +40,56 @@ func (h *PatientHandler) Create(ctx *goofy.Context) (interface{}, error) {
 }
 
 func (h *PatientHandler) Get(ctx *goofy.Context) (interface{}, error) {
-	return nil, nil
+
+	patientId := ctx.PathParam("id")
+
+	if patientId == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
+	}
+
+	patientDetails, err := h.service.Get(ctx, patientId)
+	if err != nil {
+		return nil, err
+	}
+
+	return patientDetails, nil
 }
 
 func (h *PatientHandler) Update(ctx *goofy.Context) (interface{}, error) {
-	return nil, nil
+	var patient models.PatientRequest
+
+	err := ctx.Bind(&patient)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"json request body"}}
+	}
+
+	patientId := ctx.PathParam("id")
+
+	if patientId == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
+	}
+
+	patientDetails, err := h.service.Update(ctx, &patient, patientId)
+	if err != nil {
+		return nil, err
+	}
+
+	return patientDetails, nil
 }
 
-func (h *PatientHandler) Delete(ctx *goofy.Context) error {
-	return nil
+func (h *PatientHandler) Delete(ctx *goofy.Context) (interface{}, error) {
+	patientId := ctx.PathParam("id")
+
+	if patientId == "" {
+		return nil, errors.MissingParam{Param: []string{"id"}}
+	}
+
+	err := h.service.Delete(ctx, patientId)
+	if err != nil {
+		return nil, err
+	}
+
+	return nil, nil
 }
 
 func validatePatientRequest(patient *models.PatientRequest) error {
