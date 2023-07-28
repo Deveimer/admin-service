@@ -2,10 +2,12 @@ package patients
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
-
+	"github.com/Deveimer/goofy/pkg/goofy/errors"
+	"github.com/Deveimer/goofy/pkg/goofy/types"
 	"main/internal/models"
 	"main/internal/stores"
 	"main/utils"
+	"net/http"
 )
 
 type PatientService struct {
@@ -17,6 +19,15 @@ func New(store stores.Patient) *PatientService {
 }
 
 func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientRequest) (interface{}, error) {
+	existingId, err := s.store.GetPatientByPhoneAndEmail(ctx, patient.Phone, patient.Email)
+	if existingId != "" {
+		return nil, errors.Response{
+			StatusCode: http.StatusBadRequest,
+			Status:     http.StatusText(http.StatusBadRequest),
+			Reason:     "patient already exist with email/phone",
+		}
+	}
+
 	patientDetails := models.PatientDetails{
 		Name:    patient.Name,
 		Gender:  patient.Gender,
@@ -58,17 +69,55 @@ func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientReque
 		return nil, err
 	}
 
-	return details, nil
+	s.store.Get(ctx, details)
+
+	return types.Response{
+		Data: "patient created successfully",
+	}, nil
 }
 
-func (s *PatientService) Get(ctx *goofy.Context, patient *models.PatientRequest) (*models.PatientDetails, error) {
-	return nil, nil
+func (s *PatientService) Get(ctx *goofy.Context, id string) (*models.PatientDetails, error) {
+	patientDetails, err := s.store.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return patientDetails, nil
 }
 
-func (s *PatientService) Update(ctx *goofy.Context, patient *models.PatientRequest) (*models.PatientDetails, error) {
-	return nil, nil
+func (s *PatientService) Update(ctx *goofy.Context, patientDetails *models.PatientRequest, id string) (*models.PatientDetails, error) {
+	existingId, err := s.store.GetPatientByPhoneAndEmail(ctx, patientDetails.Phone, patientDetails.Email)
+	if existingId != "" {
+		return nil, errors.Response{
+			StatusCode: http.StatusBadRequest,
+			Status:     http.StatusText(http.StatusBadRequest),
+			Reason:     "patient already exist with email/phone",
+		}
+	}
+
+	patient, err := s.Get(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	updatedResponse, err := s.store.Update(ctx, patientDetails, patient.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedResponse, nil
 }
 
-func (s *PatientService) Delete(ctx *goofy.Context, patient *models.PatientRequest) error {
+func (s *PatientService) Delete(ctx *goofy.Context, id string) error {
+	patient, err := s.Get(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	err = s.store.Delete(ctx, patient.Id)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

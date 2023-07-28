@@ -21,7 +21,10 @@ func main() {
 	// HTTP Handler
 	patientHandler := patientsHandler.New(patientSvc)
 
+	app.GET("/patient/{id}", patientHandler.Get)
 	app.POST("/patient", patientHandler.Create)
+	app.PUT("/patient/{id}", patientHandler.Update)
+	app.DELETE("/patient/{id}", patientHandler.Delete)
 
 	app.Start()
 }

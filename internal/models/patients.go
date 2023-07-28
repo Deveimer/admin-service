@@ -14,6 +14,7 @@ type PatientRequest struct {
 	City    string `json:"city"`
 	State   string `json:"state"`
 	Pincode int    `json:"pincode"`
+	Status  string `json:"status"`
 }
 
 type Patient struct {
