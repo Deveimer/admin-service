@@ -7,7 +7,7 @@ import (
 )
 
 type Patient interface {
-	Create(ctx *goofy.Context, patient *models.PatientDetails) (string, error)
+	Create(ctx *goofy.Context, patient *models.PatientDetails) (interface{}, error)
 	Get(ctx *goofy.Context, id string) (*models.PatientDetails, error)
 	GetPatientByPhoneAndEmail(ctx *goofy.Context, phone, email string) (string, error)
 	Update(ctx *goofy.Context, patientDetails *models.PatientRequest, id string) (*models.PatientDetails, error)

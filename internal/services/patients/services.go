@@ -64,12 +64,10 @@ func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientReque
 
 	patientDetails.Salt = salt
 
-	details, err := s.store.Create(ctx, &patientDetails)
+	_, err = s.store.Create(ctx, &patientDetails)
 	if err != nil {
 		return nil, err
 	}
-
-	s.store.Get(ctx, details)
 
 	return types.Response{
 		Data: "patient created successfully",
