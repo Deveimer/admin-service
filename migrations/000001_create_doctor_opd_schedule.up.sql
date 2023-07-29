@@ -1,4 +1,4 @@
-CREATE TYPE status_type AS ENUM ('OPEN', 'CANCELLED');
+CREATE TYPE status_type AS ENUM ('OPEN', 'CANCELLED', 'SCHEDULED');
 CREATE TABLE IF NOT EXISTS "doctor_opd_schedule" (
                                                  "id" SERIAL NOT NULL,
                                                  "doctor_id" varchar NOT NULL,

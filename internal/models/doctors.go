@@ -47,13 +47,3 @@ type DoctorAppointments struct {
 	UpdatedAt           time.Time `json:"updatedAt,omitempty"`
 	CreatedAt           time.Time `json:"createdAt,omitempty"`
 }
-
-type DoctorOPDSchedule struct {
-	ID           int       `json:"-"`
-	DoctorID     string    `json:"doctor_id"`
-	OPDStatus    string    `json:"opd_status"`
-	OPDStartDate time.Time `json:"opd_start_date"`
-	OPDEndDate   time.Time `json:"opd_end_date"`
-	OPDStartTime time.Time `json:"opd_start_time"`
-	OPDEndTime   time.Time `json:"opd_end_time"`
-}
