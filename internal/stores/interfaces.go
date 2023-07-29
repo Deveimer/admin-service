@@ -2,8 +2,8 @@ package stores
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
-	"main/internal/filters"
 
+	"main/internal/filters"
 	"main/internal/models"
 )
 
@@ -21,3 +21,4 @@ type DoctorOPDSchedule interface {
 	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error)
 	Update(ctx *goofy.Context, status string, id int) (*models.DoctorOPDSchedule, error)
 }
+

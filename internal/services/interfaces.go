@@ -2,8 +2,8 @@ package services
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
-	"main/internal/filters"
 
+	"main/internal/filters"
 	"main/internal/models"
 )
 
