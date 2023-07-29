@@ -2,14 +2,13 @@ package main
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
+	doctorOPDScheduleHandler "main/internal/http/doctorOPDSchedule"
+	doctorOPDScheduleService "main/internal/services/doctorOPDSchedule"
+	doctorOPDScheduleStore "main/internal/stores/doctorOPDSchedule"
 
 	patientsHandler "main/internal/http/patients"
 	patientsSvc "main/internal/services/patients"
 	patientsStore "main/internal/stores/patients"
-
-	doctorOPDScheduleHandler "main/internal/http/doctors/doctorOPDSchedule"
-	doctorOPDScheduleService "main/internal/services/doctors/doctorOPDSchedule"
-	doctorOPDScheduleStore "main/internal/stores/doctors/doctorOPDSchedule"
 )
 
 func main() {
