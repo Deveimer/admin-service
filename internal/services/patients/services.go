@@ -1,13 +1,16 @@
 package patients
 
 import (
-	"github.com/Deveimer/goofy/pkg/goofy"
-	"github.com/Deveimer/goofy/pkg/goofy/errors"
-	"github.com/Deveimer/goofy/pkg/goofy/types"
+
 	"main/internal/models"
 	"main/internal/stores"
 	"main/utils"
 	"net/http"
+
+	"github.com/Deveimer/goofy/pkg/goofy"
+	"github.com/Deveimer/goofy/pkg/goofy/errors"
+	"github.com/Deveimer/goofy/pkg/goofy/types"
+
 )
 
 type PatientService struct {
