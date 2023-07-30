@@ -47,12 +47,12 @@ type PatientDetails struct {
 }
 
 type PatientPrescription struct {
-	ID                   string    `json:"id"`
-	PatientID            string    `json:"patient_id"`
-	DoctorID             string    `json:"doctor_id"`
-	PrescriptionLocation string    `json:"prescription_location"`
+	ID                   string    `json:"id,omitempty"`
+	PatientID            string    `json:"patient_id,omitempty"`
+	DoctorID             string    `json:"doctor_id,omitempty"`
+	PrescriptionLocation string    `json:"prescription_location,omitempty"`
 	Notes                string    `json:"notes,omitempty"`
-	CreatedAt            time.Time `json:"createdAt"`
+	CreatedAt            time.Time `json:"createdAt,omitempty"`
 	UpdatedAt            time.Time `json:"updatedAt,omitempty"`
 	DeletedAt            time.Time `json:"deletedAt,omitempty"`
 }
