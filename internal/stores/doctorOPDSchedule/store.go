@@ -54,6 +54,7 @@ func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.
 		&doctorOPDSchedule.OPDEndDate,
 		&doctorOPDSchedule.OPDStartTime,
 		&doctorOPDSchedule.OPDEndTime,
+		&doctorOPDSchedule.OPDCancelReason,
 	)
 	if err != nil {
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While fetching doctor opd schedule by id in doctorOPDScheduleStore, Error: %v", err.Error()))
@@ -88,7 +89,9 @@ func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.Do
 			&doctorOPDSchedule.OPDStartDate,
 			&doctorOPDSchedule.OPDEndDate,
 			&doctorOPDSchedule.OPDStartTime,
-			&doctorOPDSchedule.OPDEndTime)
+			&doctorOPDSchedule.OPDEndTime,
+			&doctorOPDSchedule.OPDCancelReason,
+		)
 		if err != nil {
 			ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While Scaning doctor opd schedule getAll in doctorOPDScheduleStore, Error: %v", err.Error()))
 			return nil, err
@@ -99,16 +102,41 @@ func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.Do
 	return doctorOPDSchedules, nil
 }
 
-func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, status string, id int) (*models.DoctorOPDSchedule, error) {
-	query := `UPDATE ` + constants.DoctorOPDScheduleTable + ` SET opd_status = $1 WHERE id = $2`
+func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error) {
+	setQuery, values, index := generateSetClause(status, reason)
 
-	_, err := dos.DB.Exec(query, status, id)
+	if len(values) > 0 {
+		setQuery = ` SET` + setQuery
+	}
+
+	values = append(values, id)
+	query := `UPDATE ` + constants.DoctorOPDScheduleTable + setQuery + ` WHERE id = $` + strconv.Itoa(index+1)
+
+	_, err := dos.DB.Exec(query, values...)
 	if err != nil {
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While updating status in doctorOPDScheduleStore, Error: %v", err.Error()))
 		return nil, err
 	}
 
 	return dos.GetByID(ctx, id)
+}
+
+func generateSetClause(status string, reason string) (setQuery string, values []interface{}, index int) {
+	if status != "" {
+		setQuery += fmt.Sprintf(` opd_status = $%v,`, strconv.Itoa(index+1))
+		index += 1
+		values = append(values, status)
+	}
+
+	if reason != "" && status == "CANCELLED" {
+		setQuery += fmt.Sprintf(` opd_cancel_reason = $%v,`, strconv.Itoa(index+1))
+		index += 1
+		values = append(values, reason)
+	}
+
+	setQuery = strings.TrimSuffix(setQuery, `,`)
+
+	return
 }
 
 func generateWhereClause(filter *filters.DoctorOPDSchedule) (where string, values []interface{}) {

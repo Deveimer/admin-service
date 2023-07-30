@@ -19,6 +19,5 @@ type DoctorOPDSchedule interface {
 	Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error)
 	GetByID(ctx *goofy.Context, id int) (*models.DoctorOPDSchedule, error)
 	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error)
-	Update(ctx *goofy.Context, status string, id int) (*models.DoctorOPDSchedule, error)
+	Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error)
 }
-

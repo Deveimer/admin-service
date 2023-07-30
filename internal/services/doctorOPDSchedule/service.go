@@ -1,6 +1,7 @@
 package doctorOPDSchedule
 
 import (
+	"database/sql"
 	"github.com/Deveimer/goofy/pkg/goofy"
 	"github.com/Deveimer/goofy/pkg/goofy/errors"
 	"main/internal/filters"
@@ -50,6 +51,9 @@ func (dos *doctorOPDScheduler) GetById(ctx *goofy.Context, id string) (*models.D
 
 	doctorOPDSchedule, err := dos.doctorOPDStore.GetByID(ctx, doctorOPDScheduleID)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, errors.EntityNotFound{Entity: "doctor_opd_schedule", ID: id}
+		}
 		ctx.Logger.Errorf("Error while get by ID call doctorOpd schedule from store : err %v", err)
 		return nil, errors.InternalServerError{}
 	}
@@ -78,7 +82,7 @@ func (dos *doctorOPDScheduler) GetAll(ctx *goofy.Context, filter *filters.Doctor
 	return doctorOPDSchedules, nil
 }
 
-func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status string) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status string, reason string) (*models.DoctorOPDSchedule, error) {
 	if id == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
@@ -98,7 +102,16 @@ func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status stri
 		}
 	}
 
-	doctorOPDSchedule, err := dos.doctorOPDStore.Update(ctx, status, doctorOPDScheduleID)
+	if status == "CANCELLED" && reason == "" {
+		return nil, errors.MissingParam{Param: []string{"reason"}}
+	}
+
+	_, err = dos.GetById(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	doctorOPDSchedule, err := dos.doctorOPDStore.Update(ctx, doctorOPDScheduleID, status, reason)
 	if err != nil {
 		ctx.Logger.Errorf("Error while update call doctorOpd schedule from store : err %v", err)
 		return nil, errors.InternalServerError{}

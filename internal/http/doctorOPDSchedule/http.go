@@ -71,6 +71,7 @@ func (h *Handler) Update(ctx *goofy.Context) (interface{}, error) {
 
 	doctorOPDScheduleUpdateRequest := struct {
 		Status string `json:"status"`
+		Reason string `json:"reason"`
 	}{}
 	err := ctx.Bind(&doctorOPDScheduleUpdateRequest)
 	if err != nil {
@@ -78,7 +79,7 @@ func (h *Handler) Update(ctx *goofy.Context) (interface{}, error) {
 		return nil, &errors.Response{StatusCode: http.StatusInternalServerError, Reason: "Unable to unmarshall user data"}
 	}
 
-	doctorOPDSchedule, err := h.DoctorOPDService.Update(ctx, id, doctorOPDScheduleUpdateRequest.Status)
+	doctorOPDSchedule, err := h.DoctorOPDService.Update(ctx, id, doctorOPDScheduleUpdateRequest.Status, doctorOPDScheduleUpdateRequest.Reason)
 	if err != nil {
 		return nil, err
 	}

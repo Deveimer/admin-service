@@ -6,13 +6,14 @@ import (
 )
 
 type DoctorOPDSchedule struct {
-	ID           int    `json:"id"`
-	DoctorID     string `json:"doctorId"`
-	OPDStatus    string `json:"opdStatus"`
-	OPDStartDate string `json:"opdStartDate"`
-	OPDEndDate   string `json:"opdEndDte"`
-	OPDStartTime string `json:"opdStartTime"`
-	OPDEndTime   string `json:"opdEndTime"`
+	ID              int     `json:"id"`
+	DoctorID        string  `json:"doctorId"`
+	OPDStatus       string  `json:"opdStatus"`
+	OPDStartDate    string  `json:"opdStartDate"`
+	OPDEndDate      string  `json:"opdEndDte"`
+	OPDStartTime    string  `json:"opdStartTime"`
+	OPDCancelReason *string `json:"opdCancelReason"`
+	OPDEndTime      string  `json:"opdEndTime"`
 }
 
 type DoctorOPDScheduleCreateRequest struct {
