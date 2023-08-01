@@ -5,7 +5,19 @@ import (
 	"time"
 )
 
-// first contribution
+type DoctorRequest struct {
+	Name          string `json:"name"`
+	Gender        string `json:"gender"`
+	Phone         string `json:"phone"`
+	Email         string `json:"email"`
+	LicenceNumber string `json:"licence_number"`
+	Age           int    `json:"age"`
+	City          string `json:"city"`
+	State         string `json:"state"`
+	Pincode       string `json:"pincode"`
+	Status        string `json:"status"`
+}
+
 type Doctor struct {
 	Id        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -26,7 +38,6 @@ type DoctorDetails struct {
 	City          string           `json:"city"`
 	State         string           `json:"state"`
 	Pincode       string           `json:"pincode"`
-	JoinedTime    time.Time        `json:"joined_time"`
 	JoinedOn      time.Time        `json:"joined_on"`
 	LastLoginTime time.Time        `json:"lastLoginTime"`
 	MetaData      *json.RawMessage `json:"metaData"`
@@ -46,14 +57,4 @@ type DoctorAppointments struct {
 	AppointmentStatus   string    `json:"appointment_status"`
 	UpdatedAt           time.Time `json:"updatedAt,omitempty"`
 	CreatedAt           time.Time `json:"createdAt,omitempty"`
-}
-
-type DoctorOPDSchedule struct {
-	ID           int       `json:"-"`
-	DoctorID     string    `json:"doctor_id"`
-	OPDStatus    string    `json:"opd_status"`
-	OPDStartDate time.Time `json:"opd_start_date"`
-	OPDEndDate   time.Time `json:"opd_end_date"`
-	OPDStartTime time.Time `json:"opd_start_time"`
-	OPDEndTime   time.Time `json:"opd_end_time"`
 }

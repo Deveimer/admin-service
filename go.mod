@@ -1,6 +1,6 @@
 module main
 
-go 1.20
+go 1.19
 
 require (
 	github.com/Deveimer/goofy v0.0.0-20230728221635-bf6607aee4dc
