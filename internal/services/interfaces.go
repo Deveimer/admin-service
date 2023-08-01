@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/Deveimer/goofy/pkg/goofy"
 
+	"main/internal/filters"
 	"main/internal/models"
 )
 
@@ -18,4 +19,11 @@ type Doctor interface {
 	Get(ctx *goofy.Context, id string) (*models.DoctorDetails, error)
 	Update(ctx *goofy.Context, doctorDetails *models.DoctorRequest, id string) (*models.DoctorDetails, error)
 	Delete(ctx *goofy.Context, id string) error
+}
+
+type DoctorOPDScheduler interface {
+	Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error)
+	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error)
+	GetById(ctx *goofy.Context, id string) (*models.DoctorOPDSchedule, error)
+	Update(ctx *goofy.Context, id string, status string, reason string) (*models.DoctorOPDSchedule, error)
 }
