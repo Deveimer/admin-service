@@ -1,30 +1,33 @@
-package doctorOPDSchedule
+package opdScheduler
 
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Deveimer/goofy/pkg/goofy"
-	"main/internal/constants"
-	"main/internal/filters"
-	"main/internal/models"
 	"strconv"
 	"strings"
+
+	"github.com/Deveimer/goofy/pkg/goofy"
+
+	"main/internal/filters"
+	"main/internal/models"
 )
 
-type doctorOPDScheduleStore struct {
+type OpdScheduleStore struct {
 	DB *sql.DB
 }
 
-func New(db *sql.DB) *doctorOPDScheduleStore {
-	return &doctorOPDScheduleStore{DB: db}
+func New(db *sql.DB) *OpdScheduleStore {
+	return &OpdScheduleStore{DB: db}
 }
 
-func (dos *doctorOPDScheduleStore) Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error) {
-	query := `INSERT INTO ` + constants.DoctorOPDScheduleTable +
+const tablename = "doctor_opd_schedule"
+
+func (o *OpdScheduleStore) Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error) {
+	query := `INSERT INTO ` + tablename +
 		` (doctor_id, opd_status, opd_start_date, opd_end_date, opd_start_time, opd_end_time) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`
 
 	var lastInsertedID int
-	err := dos.DB.QueryRow(
+	err := o.DB.QueryRow(
 		query,
 		request.DoctorID,
 		request.OPDStatus,
@@ -38,15 +41,15 @@ func (dos *doctorOPDScheduleStore) Create(ctx *goofy.Context, request *models.Do
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While Inserting  to DB in doctorOPDScheduleStore, Error: %v", err.Error()))
 	}
 
-	return dos.GetByID(ctx, lastInsertedID)
+	return o.GetByID(ctx, lastInsertedID)
 }
 
-func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.DoctorOPDSchedule, error) {
+func (o *OpdScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.DoctorOPDSchedule, error) {
 	var doctorOPDSchedule models.DoctorOPDSchedule
 
-	query := `SELECT * FROM ` + constants.DoctorOPDScheduleTable + ` WHERE id = $1`
+	query := `SELECT * FROM ` + tablename + ` WHERE id = $1`
 
-	err := dos.DB.QueryRow(query, id).Scan(
+	err := o.DB.QueryRow(query, id).Scan(
 		&doctorOPDSchedule.ID,
 		&doctorOPDSchedule.DoctorID,
 		&doctorOPDSchedule.OPDStatus,
@@ -64,16 +67,16 @@ func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.
 	return &doctorOPDSchedule, nil
 }
 
-func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error) {
+func (o *OpdScheduleStore) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error) {
 	where, values := generateWhereClause(filter)
 
 	if len(values) > 0 {
 		where = ` WHERE ` + where
 	}
 
-	query := `SELECT * FROM ` + constants.DoctorOPDScheduleTable + where
+	query := `SELECT * FROM ` + tablename + where
 
-	rows, err := dos.DB.Query(query, values...)
+	rows, err := o.DB.Query(query, values...)
 	if err != nil {
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While fetching doctor opd schedule getAll in doctorOPDScheduleStore, Error: %v", err.Error()))
 		return nil, err
@@ -102,7 +105,7 @@ func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.Do
 	return doctorOPDSchedules, nil
 }
 
-func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error) {
+func (o *OpdScheduleStore) Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error) {
 	setQuery, values, index := generateSetClause(status, reason)
 
 	if len(values) > 0 {
@@ -110,15 +113,15 @@ func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, id int, status str
 	}
 
 	values = append(values, id)
-	query := `UPDATE ` + constants.DoctorOPDScheduleTable + setQuery + ` WHERE id = $` + strconv.Itoa(index+1)
+	query := `UPDATE ` + tablename + setQuery + ` WHERE id = $` + strconv.Itoa(index+1)
 
-	_, err := dos.DB.Exec(query, values...)
+	_, err := o.DB.Exec(query, values...)
 	if err != nil {
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While updating status in doctorOPDScheduleStore, Error: %v", err.Error()))
 		return nil, err
 	}
 
-	return dos.GetByID(ctx, id)
+	return o.GetByID(ctx, id)
 }
 
 func generateSetClause(status string, reason string) (setQuery string, values []interface{}, index int) {
