@@ -1,13 +1,13 @@
 package patients
 
 import (
-	"net/http"
-
 	"github.com/Deveimer/goofy/pkg/goofy"
 	"github.com/Deveimer/goofy/pkg/goofy/errors"
+	"github.com/Deveimer/goofy/pkg/goofy/types"
 	"main/internal/models"
 	"main/internal/stores"
 	"main/utils"
+	"net/http"
 )
 
 type PatientService struct {
@@ -20,10 +20,6 @@ func New(store stores.Patient) *PatientService {
 
 func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientRequest) (interface{}, error) {
 	existingId, err := s.store.GetPatientByPhoneAndEmail(ctx, patient.Phone, patient.Email)
-	if _, ok := err.(errors.EntityNotFound); !ok {
-		return nil, err
-	}
-
 	if existingId != "" {
 		return nil, errors.Response{
 			StatusCode: http.StatusBadRequest,
@@ -68,12 +64,14 @@ func (s *PatientService) Create(ctx *goofy.Context, patient *models.PatientReque
 
 	patientDetails.Salt = salt
 
-	res, err := s.store.Create(ctx, &patientDetails)
+	_, err = s.store.Create(ctx, &patientDetails)
 	if err != nil {
 		return nil, err
 	}
 
-	return res, nil
+	return types.Response{
+		Data: "patient created successfully",
+	}, nil
 }
 
 func (s *PatientService) Get(ctx *goofy.Context, id string) (*models.PatientDetails, error) {
@@ -86,28 +84,21 @@ func (s *PatientService) Get(ctx *goofy.Context, id string) (*models.PatientDeta
 }
 
 func (s *PatientService) Update(ctx *goofy.Context, patientDetails *models.PatientRequest, id string) (*models.PatientDetails, error) {
-	existingPatient, err := s.store.Get(ctx, id)
+	existingId, err := s.store.GetPatientByPhoneAndEmail(ctx, patientDetails.Phone, patientDetails.Email)
+	if existingId != "" {
+		return nil, errors.Response{
+			StatusCode: http.StatusBadRequest,
+			Status:     http.StatusText(http.StatusBadRequest),
+			Reason:     "patient already exist with email/phone",
+		}
+	}
+
+	patient, err := s.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	if (patientDetails.Phone != "" || patientDetails.Email != "") &&
-		(existingPatient.Phone != patientDetails.Phone || existingPatient.Email != patientDetails.Email) {
-		existingId, err := s.store.GetPatientByPhoneAndEmail(ctx, existingPatient.Phone, existingPatient.Email)
-		if err != nil {
-			return nil, err
-		}
-
-		if existingId != "" {
-			return nil, errors.Response{
-				StatusCode: http.StatusBadRequest,
-				Status:     http.StatusText(http.StatusBadRequest),
-				Reason:     "email or phone already registered with another patient",
-			}
-		}
-	}
-
-	updatedResponse, err := s.store.Update(ctx, patientDetails, existingPatient.Id)
+	updatedResponse, err := s.store.Update(ctx, patientDetails, patient.Id)
 	if err != nil {
 		return nil, err
 	}

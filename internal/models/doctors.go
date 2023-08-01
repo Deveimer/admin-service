@@ -5,19 +5,7 @@ import (
 	"time"
 )
 
-type DoctorRequest struct {
-	Name          string `json:"name"`
-	Gender        string `json:"gender"`
-	Phone         string `json:"phone"`
-	Email         string `json:"email"`
-	LicenceNumber string `json:"licence_number"`
-	Age           int    `json:"age"`
-	City          string `json:"city"`
-	State         string `json:"state"`
-	Pincode       string `json:"pincode"`
-	Status        string `json:"status"`
-}
-
+// first contribution
 type Doctor struct {
 	Id        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -38,6 +26,7 @@ type DoctorDetails struct {
 	City          string           `json:"city"`
 	State         string           `json:"state"`
 	Pincode       string           `json:"pincode"`
+	JoinedTime    time.Time        `json:"joined_time"`
 	JoinedOn      time.Time        `json:"joined_on"`
 	LastLoginTime time.Time        `json:"lastLoginTime"`
 	MetaData      *json.RawMessage `json:"metaData"`
