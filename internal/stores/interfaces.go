@@ -16,8 +16,15 @@ type Patient interface {
 }
 
 type DoctorOPDSchedule interface {
-	Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error)
-	GetByID(ctx *goofy.Context, id int) (*models.DoctorOPDSchedule, error)
-	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error)
-	Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error)
+	Create(ctx *goofy.Context, request *models.OPDScheduleCreateRequest) (*models.OPDSchedule, error)
+	GetByID(ctx *goofy.Context, id int) (*models.OPDSchedule, error)
+	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.OPDSchedule, error)
+	Update(ctx *goofy.Context, id int, status string, reason string) (*models.OPDSchedule, error)
+}
+
+type Appointment interface {
+	Create(ctx *goofy.Context, request *models.AppointmentCreateRequest) (*models.Appointment, error)
+	Update(ctx *goofy.Context, updateRequest *models.AppointmentUpdateRequest) (*models.Appointment, error)
+	GetAll(ctx *goofy.Context, filter *filters.Appointment) ([]*models.Appointment, error)
+	GetByID(ctx *goofy.Context, id int) (*models.Appointment, error)
 }

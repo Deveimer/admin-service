@@ -21,7 +21,7 @@ func New(DoctorOPDService services.DoctorOPDScheduler) *Handler {
 }
 
 func (h *Handler) Create(ctx *goofy.Context) (interface{}, error) {
-	var doctorOPDCreateRequest models.DoctorOPDScheduleCreateRequest
+	var doctorOPDCreateRequest models.OPDScheduleCreateRequest
 
 	err := ctx.Bind(&doctorOPDCreateRequest)
 	if err != nil {

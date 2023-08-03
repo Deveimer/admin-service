@@ -19,14 +19,14 @@ func New(db *sql.DB) *doctorOPDScheduleStore {
 	return &doctorOPDScheduleStore{DB: db}
 }
 
-func (dos *doctorOPDScheduleStore) Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduleStore) Create(ctx *goofy.Context, request *models.OPDScheduleCreateRequest) (*models.OPDSchedule, error) {
 	query := `INSERT INTO ` + constants.DoctorOPDScheduleTable +
 		` (doctor_id, opd_status, opd_start_date, opd_end_date, opd_start_time, opd_end_time) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`
 
 	var lastInsertedID int
 	err := dos.DB.QueryRow(
 		query,
-		request.DoctorID,
+		request.ID,
 		request.OPDStatus,
 		request.OPDStartDate,
 		request.OPDEndDate,
@@ -41,8 +41,8 @@ func (dos *doctorOPDScheduleStore) Create(ctx *goofy.Context, request *models.Do
 	return dos.GetByID(ctx, lastInsertedID)
 }
 
-func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.DoctorOPDSchedule, error) {
-	var doctorOPDSchedule models.DoctorOPDSchedule
+func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.OPDSchedule, error) {
+	var doctorOPDSchedule models.OPDSchedule
 
 	query := `SELECT * FROM ` + constants.DoctorOPDScheduleTable + ` WHERE id = $1`
 
@@ -64,7 +64,7 @@ func (dos *doctorOPDScheduleStore) GetByID(ctx *goofy.Context, id int) (*models.
 	return &doctorOPDSchedule, nil
 }
 
-func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.OPDSchedule, error) {
 	where, values := generateWhereClause(filter)
 
 	if len(values) > 0 {
@@ -79,10 +79,10 @@ func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.Do
 		return nil, err
 	}
 
-	var doctorOPDSchedules []*models.DoctorOPDSchedule
+	var doctorOPDSchedules []*models.OPDSchedule
 
 	for rows.Next() {
-		var doctorOPDSchedule models.DoctorOPDSchedule
+		var doctorOPDSchedule models.OPDSchedule
 		err := rows.Scan(&doctorOPDSchedule.ID,
 			&doctorOPDSchedule.DoctorID,
 			&doctorOPDSchedule.OPDStatus,
@@ -102,7 +102,7 @@ func (dos *doctorOPDScheduleStore) GetAll(ctx *goofy.Context, filter *filters.Do
 	return doctorOPDSchedules, nil
 }
 
-func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, id int, status string, reason string) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduleStore) Update(ctx *goofy.Context, id int, status string, reason string) (*models.OPDSchedule, error) {
 	setQuery, values, index := generateSetClause(status, reason)
 
 	if len(values) > 0 {
@@ -149,7 +149,6 @@ func generateWhereClause(filter *filters.DoctorOPDSchedule) (where string, value
 	}
 
 	if filter.StartDate != "" && filter.EndDate != "" {
-		//where += `(opd_start_date, opd_end_date) OVERLAPS (CAST($` + strconv.Itoa(index+1) + ` AS DATE), CAST($` + strconv.Itoa(index+2) + ` AS DATE)) AND `
 		where += `opd_start_date  >= CAST($` + strconv.Itoa(index+1) + ` AS DATE) AND CAST($` + strconv.Itoa(index+2) + ` AS DATE) <= opd_end_date AND ` + `opd_start_date  <= CAST($` + strconv.Itoa(index+3) + ` AS DATE) AND CAST($` + strconv.Itoa(index+4) + ` AS DATE) >= opd_end_date AND `
 		index += 4
 		values = append(values, filter.StartDate, filter.StartDate, filter.EndDate, filter.EndDate)

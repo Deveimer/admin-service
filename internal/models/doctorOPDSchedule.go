@@ -5,66 +5,66 @@ import (
 	"time"
 )
 
-type DoctorOPDSchedule struct {
+type OPDSchedule struct {
 	ID              int     `json:"id"`
-	DoctorID        string  `json:"doctorId"`
-	OPDStatus       string  `json:"opdStatus"`
-	OPDStartDate    string  `json:"opdStartDate"`
-	OPDEndDate      string  `json:"opdEndDte"`
-	OPDStartTime    string  `json:"opdStartTime"`
-	OPDCancelReason *string `json:"opdCancelReason"`
-	OPDEndTime      string  `json:"opdEndTime"`
+	DoctorID        string  `json:"doctor_id"`
+	OPDStatus       string  `json:"status"`
+	OPDStartDate    string  `json:"start_date"`
+	OPDEndDate      string  `json:"end_date"`
+	OPDStartTime    string  `json:"start_time"`
+	OPDCancelReason *string `json:"cancel_reason"`
+	OPDEndTime      string  `json:"end_time"`
 }
 
-type DoctorOPDScheduleCreateRequest struct {
-	DoctorID     string `json:"doctorId"`
-	OPDStatus    string `json:"opdStatus"`
-	OPDStartDate string `json:"opdStartDate"`
-	OPDEndDate   string `json:"opdEndDate"`
-	OPDStartTime string `json:"opdStartTime"`
-	OPDEndTime   string `json:"opdEndTime"`
+type OPDScheduleCreateRequest struct {
+	ID           string `json:"id"`
+	OPDStatus    string `json:"status"`
+	OPDStartDate string `json:"start_date"`
+	OPDEndDate   string `json:"end_date"`
+	OPDStartTime string `json:"start_time"`
+	OPDEndTime   string `json:"end_time"`
 }
 
-func (dos *DoctorOPDScheduleCreateRequest) Validate() error {
+func (dos *OPDScheduleCreateRequest) Validate() error {
 	var err error
-	if dos.DoctorID == "" {
-		return errors.MissingParam{Param: []string{"doctorId"}}
+	if dos.ID == "" {
+		return errors.MissingParam{Param: []string{"doctor_id"}}
 	}
 
 	if dos.OPDStartDate == "" {
-		return errors.MissingParam{Param: []string{"opdStartDate"}}
+		return errors.MissingParam{Param: []string{"start_date"}}
 	}
 
 	if dos.OPDEndDate == "" {
-		return errors.MissingParam{Param: []string{"opdStartDate"}}
+		return errors.MissingParam{Param: []string{"start_date"}}
 	}
 
 	if dos.OPDStartTime == "" {
-		return errors.MissingParam{Param: []string{"opdStartTime"}}
+		return errors.MissingParam{Param: []string{"start_time"}}
 	}
 
 	if dos.OPDEndTime == "" {
-		return errors.MissingParam{Param: []string{"opdEndTime"}}
+		return errors.MissingParam{Param: []string{"end_time"}}
 	}
 
 	startDate, err := time.Parse("2006-01-02", dos.OPDStartDate)
 	if err != nil {
-		return errors.InvalidParam{Param: []string{"opdStartDate"}}
+		return errors.InvalidParam{Param: []string{"start_date"}}
 	}
 
 	endDate, err := time.Parse("2006-01-02", dos.OPDEndDate)
 	if err != nil {
-		return errors.InvalidParam{Param: []string{"opdEndDate"}}
+		return errors.InvalidParam{Param: []string{"end_date"}}
 	}
 
 	startTime, err := time.Parse("15:04:05", dos.OPDStartTime)
 	if err != nil {
-		return errors.InvalidParam{Param: []string{"opdStartTime"}}
+		return errors.InvalidParam{Param: []string{"start_time"}}
 	}
 
 	endTime, err := time.Parse("15:04:05", dos.OPDEndTime)
 	if err != nil {
-		return errors.InvalidParam{Param: []string{"opdEndTime"}}
+		return errors.InvalidParam{Param: []string{"end_time"}}
 	}
 
 	if startDate.After(endDate) {
