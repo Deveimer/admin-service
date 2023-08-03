@@ -21,7 +21,7 @@ func New(doctorOPDStore stores.DoctorOPDSchedule) services.DoctorOPDScheduler {
 	return &doctorOPDScheduler{doctorOPDStore: doctorOPDStore}
 }
 
-func (dos *doctorOPDScheduler) Create(ctx *goofy.Context, request *models.DoctorOPDScheduleCreateRequest) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduler) Create(ctx *goofy.Context, request *models.OPDScheduleCreateRequest) (*models.OPDSchedule, error) {
 	err := request.Validate()
 	if err != nil {
 		return nil, err
@@ -39,7 +39,7 @@ func (dos *doctorOPDScheduler) Create(ctx *goofy.Context, request *models.Doctor
 	return doctorOPDSchedule, nil
 }
 
-func (dos *doctorOPDScheduler) GetById(ctx *goofy.Context, id string) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduler) GetById(ctx *goofy.Context, id string) (*models.OPDSchedule, error) {
 	if id == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
@@ -63,7 +63,7 @@ func (dos *doctorOPDScheduler) GetById(ctx *goofy.Context, id string) (*models.D
 	return doctorOPDSchedule, nil
 }
 
-func (dos *doctorOPDScheduler) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduler) GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.OPDSchedule, error) {
 	err := filter.Validate()
 	if err != nil {
 		return nil, err
@@ -82,7 +82,7 @@ func (dos *doctorOPDScheduler) GetAll(ctx *goofy.Context, filter *filters.Doctor
 	return doctorOPDSchedules, nil
 }
 
-func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status string, reason string) (*models.DoctorOPDSchedule, error) {
+func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status string, reason string) (*models.OPDSchedule, error) {
 	if id == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
@@ -123,7 +123,7 @@ func (dos *doctorOPDScheduler) Update(ctx *goofy.Context, id string, status stri
 }
 
 // ChangeDateAndTimeToRequiredFormat required format yyyy-mm-dd and HH-mm-ss
-func (dos *doctorOPDScheduler) changeDateAndTimeToRequiredFormat(ctx *goofy.Context, doctorOPDSchedule *models.DoctorOPDSchedule) {
+func (dos *doctorOPDScheduler) changeDateAndTimeToRequiredFormat(ctx *goofy.Context, doctorOPDSchedule *models.OPDSchedule) {
 	startDate, err := time.Parse("2006-01-02T15:04:05Z", doctorOPDSchedule.OPDStartDate)
 	endDate, err := time.Parse("2006-01-02T15:04:05Z", doctorOPDSchedule.OPDEndDate)
 	startTime, err := time.Parse("2006-01-02T15:04:05Z", doctorOPDSchedule.OPDStartTime)

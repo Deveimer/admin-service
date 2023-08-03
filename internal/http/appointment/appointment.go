@@ -1,53 +1,53 @@
-package opdScheduler
+package appointment
 
 import (
-	"net/http"
-	"path"
-
 	"github.com/Deveimer/goofy/pkg/goofy"
 	"github.com/Deveimer/goofy/pkg/goofy/errors"
-
 	"main/internal/filters"
 	"main/internal/models"
 	"main/internal/services"
+	"net/http"
+	"path"
+	"strconv"
 )
 
 type Handler struct {
-	DoctorOPDService services.DoctorOPDScheduler
+	appointmentService services.AppointmentScheduler
 }
 
-func New(DoctorOPDService services.DoctorOPDScheduler) *Handler {
-	return &Handler{DoctorOPDService: DoctorOPDService}
+func New(appointmentService services.AppointmentScheduler) *Handler {
+	return &Handler{appointmentService: appointmentService}
 }
 
 func (h *Handler) Create(ctx *goofy.Context) (interface{}, error) {
-	var doctorOPDCreateRequest models.OPDScheduleCreateRequest
+	var appointmentCreateRequest models.AppointmentCreateRequest
 
-	err := ctx.Bind(&doctorOPDCreateRequest)
+	err := ctx.Bind(&appointmentCreateRequest)
 	if err != nil {
 		ctx.Logger.Errorf("error while unmarshalling json in Create [error message]: %v ", err.Error())
 		return nil, &errors.Response{StatusCode: http.StatusInternalServerError, Reason: "Unable to unmarshall user data"}
 	}
 
-	doctorOPDSchedule, err := h.DoctorOPDService.Create(ctx, &doctorOPDCreateRequest)
+	appointment, err := h.appointmentService.Create(ctx, &appointmentCreateRequest)
 	if err != nil {
 		return nil, err
 	}
 
-	return doctorOPDSchedule, nil
+	return appointment, nil
 }
 
 func (h *Handler) Index(ctx *goofy.Context) (interface{}, error) {
 	queryParam := ctx.Request().URL.Query()
 
-	var doctorOPDScheduleFilter filters.DoctorOPDSchedule
-	doctorOPDScheduleFilter.DoctorID = queryParam.Get("doctorId")
-	doctorOPDScheduleFilter.StartDate = queryParam.Get("startDate")
-	doctorOPDScheduleFilter.EndDate = queryParam.Get("endDate")
-	doctorOPDScheduleFilter.Status = queryParam.Get("status")
-	doctorOPDScheduleFilter.Date = queryParam.Get("date")
+	var appointmentFilter filters.Appointment
+	appointmentFilter.DoctorID = queryParam.Get("doctorId")
+	appointmentFilter.Status = queryParam.Get("status")
+	appointmentFilter.Date = queryParam.Get("date")
+	appointmentFilter.PatientID = queryParam.Get("patient")
+	includeCancelled, _ := strconv.ParseBool(queryParam.Get("includeCancelled"))
+	appointmentFilter.IncludeCancelled = includeCancelled
 
-	doctorOPDSchedules, err := h.DoctorOPDService.GetAll(ctx, &doctorOPDScheduleFilter)
+	doctorOPDSchedules, err := h.appointmentService.GetAll(ctx, &appointmentFilter)
 	if err != nil {
 		return nil, err
 	}
@@ -58,28 +58,27 @@ func (h *Handler) Index(ctx *goofy.Context) (interface{}, error) {
 func (h *Handler) Read(ctx *goofy.Context) (interface{}, error) {
 	id := path.Base(ctx.Request().URL.Path)
 
-	doctorOPDSchedule, err := h.DoctorOPDService.GetById(ctx, id)
+	appointment, err := h.appointmentService.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return doctorOPDSchedule, err
+	return appointment, err
 }
 
 func (h *Handler) Update(ctx *goofy.Context) (interface{}, error) {
 	id := path.Base(ctx.Request().URL.Path)
 
-	doctorOPDScheduleUpdateRequest := struct {
-		Status string `json:"status"`
-		Reason string `json:"reason"`
-	}{}
-	err := ctx.Bind(&doctorOPDScheduleUpdateRequest)
+	var appointmentUpdateRequest *models.AppointmentUpdateRequest
+	err := ctx.Bind(&appointmentUpdateRequest)
 	if err != nil {
 		ctx.Logger.Errorf("error while unmarshalling json in orderPayment create [error message]: %v ", err.Error())
 		return nil, &errors.Response{StatusCode: http.StatusInternalServerError, Reason: "Unable to unmarshall user data"}
 	}
 
-	doctorOPDSchedule, err := h.DoctorOPDService.Update(ctx, id, doctorOPDScheduleUpdateRequest.Status, doctorOPDScheduleUpdateRequest.Reason)
+	appointmentID, _ := strconv.Atoi(id)
+	appointmentUpdateRequest.ID = appointmentID
+	doctorOPDSchedule, err := h.appointmentService.Update(ctx, appointmentUpdateRequest)
 	if err != nil {
 		return nil, err
 	}
