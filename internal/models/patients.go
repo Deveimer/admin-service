@@ -13,7 +13,7 @@ type PatientRequest struct {
 	Age     int    `json:"age"`
 	City    string `json:"city"`
 	State   string `json:"state"`
-	Pincode int    `json:"pincode"`
+	Pincode string `json:"pincode"`
 	Status  string `json:"status"`
 }
 
@@ -35,7 +35,7 @@ type PatientDetails struct {
 	Age           int              `json:"age"`
 	City          string           `json:"city"`
 	State         string           `json:"state"`
-	Pincode       int              `json:"pincode"`
+	Pincode       string           `json:"pincode"`
 	JoinedOn      time.Time        `json:"joined_on"`
 	LastLoginTime time.Time        `json:"lastLoginTime"`
 	MetaData      *json.RawMessage `json:"metaData"`

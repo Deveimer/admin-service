@@ -1,15 +1,15 @@
-package doctorOPDSchedule
+package opdScheduler
 
 import (
-	"main/internal/filters"
-	"main/internal/models"
-	"main/internal/services"
-
 	"net/http"
 	"path"
 
 	"github.com/Deveimer/goofy/pkg/goofy"
 	"github.com/Deveimer/goofy/pkg/goofy/errors"
+
+	"main/internal/filters"
+	"main/internal/models"
+	"main/internal/services"
 )
 
 type Handler struct {

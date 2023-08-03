@@ -1,9 +1,487 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Health Admin
-  description: Health Admin
   version: 1.0.0
+  title: admin-service API
+  description: API documentation for admin-service
 servers:
-  - url: 'https'
+  - url: http://localhost:9091
+    description: Local Development Server
 paths:
-  
+  /patient/{patientId}:
+    parameters:
+      - name: patientId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        ["Patient"]
+      summary: Get patient information
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+              examples:
+                success:
+                  value:
+                    id: "Y9ZVA2XR"
+                    name: "John Doe"
+                    gender: "Male"
+                    phone: "1234567890"
+                    email: "john.doe@example.com"
+                    age: 30
+                    city: "New York"
+                    state: "NY"
+                    pincode: "10001"
+                    joined_on: "2023-07-28T02:54:01.254108Z"
+                    lastLoginTime: "0001-01-01T00:00:00Z"
+                    metaData: null
+                    status: "New"
+                    createdAt: "2023-07-28T02:54:01.254108Z"
+                    updatedAt: "2023-07-28T02:54:01.254108Z"
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error:
+                  value:
+                    code: 404
+                    status: "ERROR"
+                    error:
+                      message: "No 'patient' found for Id: 'GI2F5UBA'"
+    put:
+      tags:
+        ["Patient"]
+      summary: Update patient information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientUpdate"
+            examples:
+              update:
+                value:
+                  phone: "1113203453"
+                  email: "varun.sieg+2221h@example.com"
+                  state: "NYJC"
+                  pincode: "10001"
+                  metaData: null
+                  status: "New"
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+              examples:
+                success:
+                  value:
+                    id: "Y9ZVA2XR"
+                    name: "John Does"
+                    gender: "Male"
+                    phone: "1234567890"
+                    email: "john.doe@example.com"
+                    age: 30
+                    city: "New York"
+                    state: "NY"
+                    pincode: "10001"
+                    joined_on: "2023-07-28T02:54:01.254108Z"
+                    lastLoginTime: "0001-01-01T00:00:00Z"
+                    metaData: null
+                    status: "New"
+                    createdAt: "2023-07-28T02:54:01.254108Z"
+                    updatedAt: "2023-08-01T01:42:38.627736Z"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error:
+                  value:
+                    code: 400
+                    status: "ERROR"
+                    error:
+                      message: "email or phone already registered with another patient"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error:
+                  value:
+                    code: 500
+                    status: "ERROR"
+                    error:
+                      message: "Internal Server Error"
+    delete:
+      tags:
+        ["Patient"]
+      summary: Delete patient
+      responses:
+        "204":
+          description: Patient deleted
+        "404":
+          description: Patient not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error:
+                  value:
+                    code: 404
+                    status: "ERROR"
+                    error:
+                      message: "No 'patient' found for Id: 'H5TBE3Y'"
+  /patient:
+    post:
+      tags:
+        ["Patient"]
+      summary: Create new patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatientCreate"
+            examples:
+              create:
+                value:
+                  name: "varun"
+                  age: 12
+                  phone: "1322322132"
+                  email: "31232+2221h@example.com"
+                  state: "NYJC"
+                  pincode: "10001"
+                  metaData: null
+                  status: "New"
+      responses:
+        "200":
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Patient"
+              examples:
+                success:
+                  value:
+                    id: "H5TBE3YJ"
+                    name: "varun"
+                    gender: ""
+                    phone: "1322322132"
+                    email: "31232+2221h@example.com"
+                    age: 12
+                    city: ""
+                    state: "NYJC"
+                    pincode: "10001"
+                    joined_on: "2023-08-01T21:37:08.257262Z"
+                    lastLoginTime: "0001-01-01T00:00:00Z"
+                    metaData: null
+                    status: "New"
+                    createdAt: "2023-08-01T21:37:08.257263Z"
+                    updatedAt: "2023-08-01T21:37:08.257263Z"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                error:
+                  value:
+                    code: 400
+                    status: "ERROR"
+                    error:
+                      message: "Incorrect value for parameter: name"
+  '/doctor/{doctorId}':
+    get:
+      tags:
+        ["Doctor"]
+      summary: Get a doctor by ID
+      parameters:
+        - name: doctorId
+          in: path
+          required: true
+          description: ID of the doctor
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+        ["Doctor"]
+      summary: Update a doctor by ID
+      parameters:
+        - name: doctorId
+          in: path
+          required: true
+          description: ID of the doctor
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoctorUpdateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+        ["Doctor"]
+      summary: Delete a doctor by ID
+      parameters:
+        - name: doctorId
+          in: path
+          required: true
+          description: ID of the doctor
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/doctor':
+    post:
+      tags:
+        ["Doctor"]
+      summary: Create a new doctor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DoctorCreateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DoctorResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        gender:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        city:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        joined_on:
+          type: string
+          format: date-time
+        lastLoginTime:
+          type: string
+          format: date-time
+        metaData:
+          type: object
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    PatientUpdate:
+      type: object
+      properties:
+        phone:
+          type: string
+        email:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        metaData:
+          type: object
+        status:
+          type: string
+
+    PatientCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer
+        phone:
+          type: string
+        email:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        metaData:
+          type: object
+        status:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        status:
+          type: string
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+            details:
+              type: object
+    DoctorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/Doctor'
+    Doctor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        gender:
+          type: string
+        licence_number:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        city:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        joined_on:
+          type: string
+          format: date-time
+        lastLoginTime:
+          type: string
+          format: date-time
+        metaData:
+          type: object
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DoctorUpdateRequest:
+      type: object
+      properties:
+        age:
+          type: integer
+        city:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        metaData:
+          type: object
+        status:
+          type: string
+    DoctorCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        gender:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        licence_number:
+          type: string
+        age:
+          type: integer
+        city:
+          type: string
+        state:
+          type: string
+        pincode:
+          type: string
+        metaData:
+          type: object
+        status:
+          type: string
+
+

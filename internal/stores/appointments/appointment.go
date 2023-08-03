@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/Deveimer/goofy/pkg/goofy"
-	"main/internal/constants"
 	"main/internal/filters"
 	"main/internal/models"
 	"strconv"
@@ -19,8 +18,10 @@ func New(db *sql.DB) *appointmentStore {
 	return &appointmentStore{DB: db}
 }
 
+const appointmentTable = "appointments"
+
 func (a *appointmentStore) Create(ctx *goofy.Context, request *models.AppointmentCreateRequest) (*models.Appointment, error) {
-	query := `INSERT INTO ` + constants.AppointmentTable +
+	query := `INSERT INTO ` + appointmentTable +
 		` (doctor_id, patient_id, status, description, start_time, end_time, appointment_date, created_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id`
 
 	var lastInsertedID int
@@ -44,7 +45,7 @@ func (a *appointmentStore) Create(ctx *goofy.Context, request *models.Appointmen
 }
 
 func (a *appointmentStore) GetByID(ctx *goofy.Context, id int) (*models.Appointment, error) {
-	query := `SELECT id, doctor_id, patient_id, status, description, start_time, end_time, appointment_date, reason FROM ` + constants.AppointmentTable + ` WHERE id = $1`
+	query := `SELECT id, doctor_id, patient_id, status, description, start_time, end_time, appointment_date, reason FROM ` + appointmentTable + ` WHERE id = $1`
 
 	var appointment models.Appointment
 
@@ -74,7 +75,7 @@ func (a *appointmentStore) GetAll(ctx *goofy.Context, filter *filters.Appointmen
 		where = ` WHERE ` + where
 	}
 
-	query := `SELECT id, doctor_id, patient_id,status, description, start_time, end_time, appointment_date, reason FROM ` + constants.AppointmentTable + where
+	query := `SELECT id, doctor_id, patient_id,status, description, start_time, end_time, appointment_date, reason FROM ` + appointmentTable + where
 	rows, err := a.DB.Query(query, values...)
 	if err != nil {
 		ctx.Logger.Errorf("INFO", fmt.Sprintf("Error While fetching doctor opd schedule getAll in appointment, Error: %v", err.Error()))
@@ -114,7 +115,7 @@ func (a *appointmentStore) Update(ctx *goofy.Context, updateRequest *models.Appo
 	}
 
 	values = append(values, updateRequest.ID)
-	query := `UPDATE ` + constants.AppointmentTable + setQuery + ` WHERE id = $` + strconv.Itoa(index+1)
+	query := `UPDATE ` + appointmentTable + setQuery + ` WHERE id = $` + strconv.Itoa(index+1)
 
 	_, err := a.DB.Exec(query, values...)
 	if err != nil {

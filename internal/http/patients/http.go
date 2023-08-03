@@ -105,7 +105,7 @@ func validatePatientRequest(patient *models.PatientRequest) error {
 		return errors.InvalidParam{Param: []string{"age"}}
 	}
 
-	if patient.City == "" && patient.State == "" && patient.Pincode < 1 {
+	if patient.City == "" && patient.State == "" && patient.Pincode != "" {
 		return errors.Response{
 			StatusCode: http.StatusBadRequest,
 			Status:     http.StatusText(http.StatusBadRequest),

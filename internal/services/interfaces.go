@@ -14,6 +14,13 @@ type Patient interface {
 	Delete(ctx *goofy.Context, id string) error
 }
 
+type Doctor interface {
+	Create(ctx *goofy.Context, doctor *models.DoctorRequest) (interface{}, error)
+	Get(ctx *goofy.Context, id string) (*models.DoctorDetails, error)
+	Update(ctx *goofy.Context, doctorDetails *models.DoctorRequest, id string) (*models.DoctorDetails, error)
+	Delete(ctx *goofy.Context, id string) error
+}
+
 type DoctorOPDScheduler interface {
 	Create(ctx *goofy.Context, request *models.OPDScheduleCreateRequest) (*models.OPDSchedule, error)
 	GetAll(ctx *goofy.Context, filter *filters.DoctorOPDSchedule) ([]*models.OPDSchedule, error)

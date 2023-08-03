@@ -1,4 +1,4 @@
-package doctorOPDSchedule
+package opdScheduler
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 	"main/internal/models"
 	"main/internal/services"
 	"main/internal/stores"
-	"main/internal/utils"
+	"main/utils"
 	"strconv"
 	"time"
 )

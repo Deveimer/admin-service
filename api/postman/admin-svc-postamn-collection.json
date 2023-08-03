@@ -1,0 +1,799 @@
+{
+  "info": {
+    "_postman_id": "04b1dac1-1a16-4c9c-accb-8d3c5b30134c",
+    "name": "admin-service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "19579603"
+  },
+  "item": [
+    {
+      "name": "patient",
+      "item": [
+        {
+          "name": "get patient",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "error - no patient",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:9091/patient/GI2F5UBA"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 Jul 2023 19:57:57 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'patient' found for Id: 'GI2F5UBA'\"\n    }\n}"
+            },
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:9091/patient/Y9ZVA2XR"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 Jul 2023 19:59:52 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "395"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"Y9ZVA2XR\",\n        \"name\": \"John Doe\",\n        \"gender\": \"Male\",\n        \"phone\": \"1234567890\",\n        \"email\": \"john.doe@example.com\",\n        \"age\": 30,\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"pincode\": 10001,\n        \"joined_on\": \"2023-07-28T02:54:01.254108Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-07-28T02:54:01.254108Z\",\n        \"updatedAt\": \"2023-07-28T02:54:01.254108Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update patient",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"phone\": \"1113203453\",\n        \"email\": \"varun.sieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:9091/patient/WF1EC2H1"
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"John Does\",\n    \"gender\": \"Male\",\n    \"phone\": \"1234567890\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": 10001,\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient/Y9ZVA2XR"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 Jul 2023 20:12:38 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "396"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"Y9ZVA2XR\",\n        \"name\": \"John Does\",\n        \"gender\": \"Male\",\n        \"phone\": \"1234567890\",\n        \"email\": \"john.doe@example.com\",\n        \"age\": 30,\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"pincode\": 10001,\n        \"joined_on\": \"2023-07-28T02:54:01.254108Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-07-28T02:54:01.254108Z\",\n        \"updatedAt\": \"2023-08-01T01:42:38.627736Z\"\n    }\n}"
+            },
+            {
+              "name": "error - patient not found",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n\n    \"state\": \"NY\",\n    \"pincode\": 10001,\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient/Y9ZVA2XR"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Mon, 31 Jul 2023 20:16:39 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "82"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'patient' found for Id: ''\"\n    }\n}"
+            },
+            {
+              "name": "error - entity already exist",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"1113203453\",\n        \"email\": \"john.doe@example.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient/WF1EC2H1"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 15:57:34 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "219"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"details\": {\n            \"code\": 400,\n            \"status\": \"Bad Request\",\n            \"reason\": \"email or phone already registered with another patient\"\n        },\n        \"message\": \"email or phone already registered with another patient\"\n    }\n}"
+            },
+            {
+              "name": "error - Internal server",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"phone\": \"1113203453\",\n        \"email\": \"varun.sieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient/WF1EC2H1"
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 15:59:24 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "74"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 500,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"Internal Server Error\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "create patient",
+          "request": {
+            "method": "POST",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "error - incorrect name",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\":\"varun\",\n    \"phone\": \"1113203453\",\n    \"email\": \"varun.sieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 16:03:11 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "88"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"Incorrect value for parameter: name\"\n    }\n}"
+            },
+            {
+              "name": "error -incorrect age",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\":\"varun\",\n    \"age\":12,\n    \"phone\": \"1113203453\",\n    \"email\": \"varun.sieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 16:03:29 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "87"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"Incorrect value for parameter: age\"\n    }\n}"
+            },
+            {
+              "name": "error - entity alredy exist",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\":\"varun\",\n    \"age\":12,\n    \"phone\": \"1113203453\",\n    \"email\": \"varun.sieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 16:03:45 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "187"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"details\": {\n            \"code\": 400,\n            \"status\": \"Bad Request\",\n            \"reason\": \"patient already exist with email/phone\"\n        },\n        \"message\": \"patient already exist with email/phone\"\n    }\n}"
+            },
+            {
+              "name": "error - incorrect phone",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\":\"varun\",\n    \"age\":12,\n    \"phone\": \"11132023453\",\n    \"email\": \"varun.s2ieg+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 16:03:57 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "89"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"Incorrect value for parameter: phone\"\n    }\n}"
+            },
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\":\"varun\",\n    \"age\":12,\n    \"phone\": \"1322322132\",\n    \"email\": \"31232+2221h@exeample.com\",\n    \"state\": \"NYJC\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/patient"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 16:07:08 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "388"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"H5TBE3YJ\",\n        \"name\": \"varun\",\n        \"gender\": \"\",\n        \"phone\": \"1322322132\",\n        \"email\": \"31232+2221h@exeample.com\",\n        \"age\": 12,\n        \"city\": \"\",\n        \"state\": \"NYJC\",\n        \"pincode\": \"10001\",\n        \"joined_on\": \"2023-08-01T21:37:08.257262Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-08-01T21:37:08.257263Z\",\n        \"updatedAt\": \"2023-08-01T21:37:08.257263Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete patient",
+          "request": {
+            "method": "DELETE",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "error - patient not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:9091/patient/H5TBE3Y"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 19:28:14 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "89"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'patient' found for Id: 'H5TBE3Y'\"\n    }\n}"
+            },
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:9091/patient/H5TBE3YJ"
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 19:28:27 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "item": [
+        {
+          "name": "get doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:9091/doctor/GI2F5UBA"
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:9091/doctor/GI2F5UBA"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:34:02 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "440"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"GI2F5UBA\",\n        \"name\": \"Varun Singh Rathor e\",\n        \"gender\": \"Male\",\n        \"licence_number\": \"750122292\",\n        \"phone\": \"1113203453\",\n        \"email\": \"varun.sieg+2221h@exeample.com\",\n        \"age\": 30,\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"pincode\": \"10001\",\n        \"joined_on\": \"2023-08-01T01:21:50Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-08-01T01:21:50.072355Z\",\n        \"updatedAt\": \"2023-08-01T01:21:50.072355Z\"\n    }\n}"
+            },
+            {
+              "name": "error - doctor not found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": "http://localhost:9091/doctor/GI2F5UBA4"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:34:18 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'doctor' found for Id: 'GI2F5UBA4'\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "update doctor",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"VERIFIED\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:9091/doctor/GI2F5UBA"
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"John Does\",\n    \"gender\": \"Male\",\n    \"phone\": \"1234567890\",\n    \"email\": \"john.doe@example.com\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/doctor/GI2F5UBA"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:35:24 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "420"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"GI2F5UBA\",\n        \"name\": \"John Does\",\n        \"gender\": \"Male\",\n        \"licence_number\": \"750122292\",\n        \"phone\": \"1234567890\",\n        \"email\": \"john.doe@example.com\",\n        \"age\": 30,\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"pincode\": \"10001\",\n        \"joined_on\": \"2023-08-01T01:21:50Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-08-01T01:21:50.072355Z\",\n        \"updatedAt\": \"2023-08-02T02:05:24.454016Z\"\n    }\n}"
+            },
+            {
+              "name": "error - doctor not found",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"VERIFIED\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/doctor/GI2F5UBAe"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:36:18 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'doctor' found for Id: 'GI2F5UBAe'\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "create doctor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"John Does\",\n    \"gender\": \"Male\",\n    \"phone\": \"2234223443\",\n    \"email\": \"4.doe@examp3le.com\",\n    \"licence_number\":\"23343242\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:9091/doctor"
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"John Does\",\n    \"gender\": \"Male\",\n    \"phone\": \"2234223443\",\n    \"email\": \"4.doe@examp3le.com\",\n    \"licence_number\":\"23343242\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/doctor"
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:57:33 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "417"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 200,\n    \"status\": \"SUCCESS\",\n    \"data\": {\n        \"id\": \"V7E4HUH6\",\n        \"name\": \"John Does\",\n        \"gender\": \"Male\",\n        \"licence_number\": \"23343242\",\n        \"phone\": \"2234223443\",\n        \"email\": \"4.doe@examp3le.com\",\n        \"age\": 30,\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"pincode\": \"10001\",\n        \"joined_on\": \"2023-08-02T02:27:33Z\",\n        \"lastLoginTime\": \"0001-01-01T00:00:00Z\",\n        \"metaData\": null,\n        \"status\": \"New\",\n        \"createdAt\": \"2023-08-02T02:27:33.802633Z\",\n        \"updatedAt\": \"2023-08-02T02:27:33.802633Z\"\n    }\n}"
+            },
+            {
+              "name": "error - entity already exist",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"John Does\",\n    \"gender\": \"Male\",\n    \"phone\": \"2234223443\",\n    \"email\": \"4.doe@examp3le.com\",\n    \"licence_number\":\"23343242\",\n    \"age\": 30,\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"pincode\": \"10001\",\n    \"metaData\": null,\n    \"status\": \"New\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": "http://localhost:9091/doctor"
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:57:49 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "237"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 400,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"details\": {\n            \"code\": 400,\n            \"status\": \"Bad Request\",\n            \"reason\": \"doctor already exist, please check email, phone, licence number\"\n        },\n        \"message\": \"doctor already exist, please check email, phone, licence number\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "delete doctor",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "error - doctor not found",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:9091/doctor/H5TBE3YJ4"
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:59:10 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "90"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"code\": 404,\n    \"status\": \"ERROR\",\n    \"error\": {\n        \"message\": \"No 'doctor' found for Id: 'H5TBE3YJ4'\"\n    }\n}"
+            },
+            {
+              "name": "succcess",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": "http://localhost:9091/doctor/V7E4HUH6"
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 01 Aug 2023 20:59:18 GMT"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
