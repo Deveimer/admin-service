@@ -34,7 +34,7 @@ func main() {
 	patientSvc := patientsSvc.New(patientStore)
 	doctorService := doctorsSvc.New(doctorStore)
 	opdScheduleHandlerService := doctorOPDScheduleService.New(opdScheduleStore)
-	appointmentService := appointmentService.New(appointmentStore, doctorOPDScheduleSvc)
+	appointmentService := appointmentService.New(appointmentStore, opdScheduleHandlerService)
 
 	// HTTP Handler
 	patientHandler := patientsHandler.New(patientSvc)
@@ -47,7 +47,7 @@ func main() {
 	app.PUT("/patient/{id}", patientHandler.Update)
 	app.DELETE("/patient/{id}", patientHandler.Delete)
 
-// Doctor Endpoints
+	// Doctor Endpoints
 	app.GET("/doctor/{id}", doctorHandler.Get)
 	app.POST("/doctor", doctorHandler.Create)
 	app.PUT("/doctor/{id}", doctorHandler.Update)

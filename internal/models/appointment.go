@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/Deveimer/goofy/pkg/goofy/errors"
-	"main/internal/utils"
+	"main/utils"
 	"time"
 )
 
